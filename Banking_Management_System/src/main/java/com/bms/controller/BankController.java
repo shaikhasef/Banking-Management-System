@@ -53,6 +53,7 @@ public class BankController {
 	@GetMapping("/register")
 	public String registerForm(Map<String, Object> map) {
 		List<String> list = service.getNames();
+		System.out.println(list);
 		map.put("names", list);
 		return "register";
 	}

@@ -32,7 +32,7 @@ public class BankServiceImpl implements BankService{
 	@Override
 	public List<String> getNames() {
 		// TODO Auto-generated method stub
-		return userRepo.findAllNames();
+		return userRepo.findAllName();
 	}
 
 }

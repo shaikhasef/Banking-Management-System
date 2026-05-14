@@ -1,3 +1,4 @@
+<%@page import="com.bms.entities.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -168,16 +169,17 @@ body{
 <body>
 
 <div class="container">
+<% User user=(User)session.getAttribute("user"); %>
 
     <div class="top-section">
 
         <div class="user-info">
-            <h1>Hello, Asef 👋</h1>
+            <h1>Hello, <%=user.getName() %> 👋</h1>
             <p>Welcome Back</p>
         </div>
 
         <div class="profile">
-            <img src="profile.jpg" alt="">
+            <img src="image/<%=user.getId() %>" alt="">
         </div>
 
     </div>

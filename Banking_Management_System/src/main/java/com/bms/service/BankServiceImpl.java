@@ -34,5 +34,9 @@ public class BankServiceImpl implements BankService{
 		// TODO Auto-generated method stub
 		return userRepo.findAllName();
 	}
+	@Override
+	public User VerifyPin(String pin) {
+		return userRepo.findByPin(pin);
+	}
 
 }

@@ -9,5 +9,5 @@ public interface BankService {
 	public User login(String name,String pass);
 	public User findById(int id);
 	public List<String> getNames();
-
+	public User VerifyPin(String pin);
 }

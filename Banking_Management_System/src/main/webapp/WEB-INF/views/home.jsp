@@ -186,10 +186,10 @@ body{
 
     <div class="dashboard">
 
-        <div class="card">
+        <a href="pin" style="text-decoration: none;"><div class="card">
             <div class="icon">💰</div>
             <h2>Balance</h2>
-        </div>
+        </div></a>
 
         <div class="card">
             <div class="icon">📜</div>

@@ -67,5 +67,22 @@ public class BankController {
 		return "redirect:/";
 
 	}
+	@GetMapping("pin")
+	public String VerifyPin() {
+		return "pin";
+	}
+	@PostMapping("verify-pin")
+	public String showBanalnce(@ModelAttribute User user,HttpSession ses,HttpServletRequest req) {
+		User u =(User) ses.getAttribute("user");
+		if(u.getPin().equals(user.getPin())) {
+			req.setAttribute("balance", u.getBalance());
+		return "balance";
+		}
+		else {
+			req.setAttribute("msg", "Invalid UserName or Password !");
+			return "pin";
+		}
+	}
+	
 
 }

@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bms.entities.Transaction;
 import com.bms.entities.User;
 import com.bms.service.BankService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Controller
 public class BankController {
@@ -44,12 +46,7 @@ public class BankController {
 		}
 		return "home";
 	}
-	@GetMapping("/image/{id}")
-    @ResponseBody
-    public byte[] getImage(@PathVariable int id) {
-
-        return service.findById(id).getImage();
-    }
+	
 	@GetMapping("/register")
 	public String registerForm(Map<String, Object> map) {
 		List<String> list = service.getNames();
@@ -83,6 +80,74 @@ public class BankController {
 			return "pin";
 		}
 	}
-	
+	@GetMapping("/image/{id}")
+    @ResponseBody
+    public byte[] getImage(@PathVariable int id) {
 
+        return service.findById(id).getImage();
+    }
+	@GetMapping("transfer")
+	public String searchUser(HttpServletRequest req) {
+		List<User> users = service.getAll();
+		req.setAttribute("users", users);
+		return "search_for_transfer";
+	}
+
+	@GetMapping("transfer-user")
+	public String login(@RequestParam("id") int id,HttpServletRequest req,HttpSession ses) {
+		User u = service.findById(id);
+		req.setAttribute("user", u);
+		User sender = (User)ses.getAttribute("user");
+		List<Transaction> tra = service.getTrnsaction(sender.getId(), id);
+		req.setAttribute("chat", tra);
+		return "chat";
+	}
+	@GetMapping("moneySent")
+	public String transferVerfication(
+	        @RequestParam("money") double money,
+	        @RequestParam("Rid") int receiverId,
+	        HttpServletRequest req) {
+
+	    req.setAttribute("money", money);
+	    req.setAttribute("receiverId", receiverId);
+
+	    return "transfer_pin";
+	}
+	@PostMapping("verify-transfer-pin")
+	@Transactional
+	public String verifyTransferPin(
+	        @RequestParam String pin,
+	        @RequestParam double money,
+	        @RequestParam int receiverId,
+	        HttpSession ses,
+	        HttpServletRequest req) {
+
+	    User sender = (User) ses.getAttribute("user");
+
+	    if (!sender.getPin().equals(pin)) {
+
+	        req.setAttribute("msg", "Invalid PIN");
+	        req.setAttribute("money", money);
+	        req.setAttribute("receiverId", receiverId);
+
+	        return "transfer_pin";
+	    }
+
+	    if (money > sender.getBalance()) {
+	        return "insuficiantBalance";
+	    }
+
+	    sender.setBalance(sender.getBalance() - money);
+	    service.addUser(sender);
+
+	    User receiver = service.findById(receiverId);
+	    receiver.setBalance(receiver.getBalance() + money);
+	    service.addUser(receiver);
+
+	    service.transfer(sender.getId(), receiverId, money);
+
+	    ses.setAttribute("user", sender);
+
+	    return "redirect:transfer-user?id=" + receiverId;
+	}
 }

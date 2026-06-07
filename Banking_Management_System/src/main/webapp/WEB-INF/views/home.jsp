@@ -196,10 +196,10 @@ body{
             <h2>History</h2>
         </div>
 
-        <div class="card">
+       <a href="transfer" style="text-decoration: none;"> <div class="card">
             <div class="icon">💸</div>
             <h2>Transfer</h2>
-        </div>
+        </div></a>
 
         <div class="card">
             <div class="icon">🏦</div>

@@ -1,3 +1,4 @@
+<%@page import="com.bms.entities.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -160,8 +161,8 @@ body{
     </div>
 
     <!-- BUTTON -->
-
-    <a href="ho" class="btn">
+	<% User user = (User)session.getAttribute("user"); %>
+    <a href="login/<%=user.getName() %>/<%=user.getPass() %>" class="btn">
         Back to Home
     </a>
 

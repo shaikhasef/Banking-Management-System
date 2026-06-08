@@ -1,6 +1,8 @@
 package com.bms.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -150,4 +152,40 @@ public class BankController {
 
 	    return "redirect:transfer-user?id=" + receiverId;
 	}
+	@GetMapping("History")
+	public String historyPage( HttpSession ses,
+	                           HttpServletRequest req) {
+		User user = (User) ses.getAttribute("user");
+		List<Transaction> t = service.getAllTrnsaction(user.getId());
+		Map<Integer,String> names = new HashMap<Integer, String>();
+		for(Transaction i : t) {
+			names.put(i.getReceiverAccount(), service.findById(i.getReceiverAccount()).getName());
+			names.put(i.getSenderAccount(), service.findById(i.getSenderAccount()).getName());
+		}
+		req.setAttribute("names", names);
+		req.setAttribute("history", t);
+		return "History";
+	}
+	@GetMapping("logout")
+	public String logout(HttpSession ses) {
+	    ses.invalidate();
+	    return "redirect:/";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

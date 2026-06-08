@@ -191,10 +191,10 @@ body{
             <h2>Balance</h2>
         </div></a>
 
-        <div class="card">
+       <a href="History" style="text-decoration: none;"><div class="card">
             <div class="icon">📜</div>
             <h2>History</h2>
-        </div>
+        </div></a>
 
        <a href="transfer" style="text-decoration: none;"> <div class="card">
             <div class="icon">💸</div>
@@ -208,9 +208,9 @@ body{
 
     </div>
 
-    <div class="bottom">
+   <a href="logout" style="text-decoration: none;"> <div class="bottom">
         <button class="logout">Logout</button>
-    </div>
+    </div></a>
 
 </div>
 

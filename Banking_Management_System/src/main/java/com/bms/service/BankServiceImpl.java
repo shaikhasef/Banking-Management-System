@@ -66,5 +66,9 @@ public class BankServiceImpl implements BankService{
 	public List<Transaction> getTrnsaction(int senderId, int recieverId) {
 		return tRepo.getTransaction(senderId, recieverId);
 	}
+	@Override
+	public List<Transaction> getAllTrnsaction(int id) {
+		return tRepo.getAllTransaction(id);
+	}
 
 }

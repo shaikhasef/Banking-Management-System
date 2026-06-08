@@ -23,6 +23,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	    List<Transaction> getTransaction(
 	            @Param("senderId") int senderId,
 	            @Param("receiverId") int receiverId);
-	
+	    
+	    
+	    @Query("""
+	            select t
+	            from Transaction t
+	            where t.senderAccount=:id
+	            or t.receiverAccount=:id
+	            order by t.ldate desc,t.ltime desc
+	            """)
+	    List<Transaction> getAllTransaction(@Param("id") int id);
 
 }
